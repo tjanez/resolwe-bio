@@ -36,6 +36,9 @@ Optional prerequisites
 
 If you want to run or develop tests with large input or output files, then
 install the `Git Large File Storage`_ extension.
+After installing it, you need to set it up with::
+
+    git lfs install
 
 .. _pip: https://pip.pypa.io/
 .. _PyPi: https://pypi.python.org/
