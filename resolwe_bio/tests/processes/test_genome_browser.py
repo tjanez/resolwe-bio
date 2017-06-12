@@ -1,10 +1,14 @@
 # pylint: disable=missing-docstring
 from resolwe.test import tag_process
+from django.conf import settings
+from django.test import override_settings
+
 from resolwe_bio.utils.test import BioProcessTestCase
 
 
 class GenomeBrowserProcessorTestCase(BioProcessTestCase):
 
+    @override_settings(RESOLWE_HOST_URL='https://dummy.host.com')
     @tag_process('igv')
     def test_igv_bam(self):
         with self.preparation_stage():
@@ -21,9 +25,9 @@ class GenomeBrowserProcessorTestCase(BioProcessTestCase):
 
         igv_session = self.run_process('igv', inputs)
 
-        # remove changing lines from the output
+        # remove resource path lines that have changing data object ids
         def filter_resource(line):
-            if b'<Resource path=' in line:
+            if '<Resource path="{}/data/'.format(settings.RESOLWE_HOST_URL).encode('utf-8') in line:
                 return True
 
         self.assertFile(igv_session, 'igv_file', 'igv_session_bam.xml', file_filter=filter_resource)
