@@ -11,6 +11,7 @@ class GenomeBrowserProcessorTestCase(BioProcessTestCase):
     @override_settings(RESOLWE_HOST_URL='https://dummy.host.com')
     @tag_process('igv')
     def test_igv_bam(self):
+        print("Value of RESOLWE_HOST_URL setting:", settings.RESOLWE_HOST_URL)
         with self.preparation_stage():
             bam = self.prepare_bam()
 
